@@ -18,6 +18,15 @@ async function saveToken(userId, token) {
   await fs.writeFile("tokens.json", JSON.stringify(data, null, 2));
 }
 
+// Root route → homepage
+app.get("/", (req, res) => {
+  res.send(`
+    <h1>🚀 FB Token Generator</h1>
+    <p>Click below to login and generate token:</p>
+    <a href="/login">🔑 Login with Facebook</a>
+  `);
+});
+
 // Step 1 → Login route
 app.get("/login", (req, res) => {
   const scopes = [
