@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   `);
 });
 
-// Step 1 → Login route
+// Step 1 → Login route (DEBUG ADDED)
 app.get("/login", (req, res) => {
   const scopes = [
     "pages_show_list",
@@ -38,12 +38,17 @@ app.get("/login", (req, res) => {
     "email"
   ].join(",");
 
-  const url =
+  const loginUrl =
     `https://www.facebook.com/v17.0/dialog/oauth?` +
     `client_id=${FB_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
     `&scope=${scopes}&response_type=code`;
 
-  res.redirect(url);
+  console.log("👉 Redirecting user to:", loginUrl);  // DEBUG LOG
+
+  res.send(`
+    <h2>Redirecting to Facebook...</h2>
+    <p><a href="${loginUrl}">${loginUrl}</a></p>
+  `);
 });
 
 // Step 2 → Callback
@@ -95,4 +100,6 @@ app.get("/tokens", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("🚀 Server running on port " + PORT));
+app.listen(PORT, () =>
+  console.log("🚀 Server running on port " + PORT + " with redirect:", REDIRECT_URI)
+);
